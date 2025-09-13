@@ -1,6 +1,10 @@
 import './App.css'
 import { clsx } from 'clsx'
 import { useInView } from './hooks/useInView.js'
+import Button from './components/Button.jsx'
+import SectionHeading from './components/SectionHeading.jsx'
+import { Card, CardHeader, CardTitle, CardDescription } from './components/Card.jsx'
+import BackgroundFX from './components/BackgroundFX.jsx'
 import {
   Search,
   ArrowUpDown,
@@ -39,13 +43,13 @@ function NavBar() {
             </a>
           ))}
         </div>
-        <div className="flex items-center gap-3">
-          <a href="#login" className="hidden sm:inline-flex items-center justify-center rounded-md border border-indigo-500 bg-transparent px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 transition-colors">
+        <div className="flex items-center gap-2">
+          <Button as="a" href="#login" variant="secondary" size="sm" className="hidden sm:inline-flex">
             Log In
-          </a>
-          <a href="#demo" className="inline-flex items-center justify-center rounded-md border border-indigo-500 bg-indigo-500 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 transition-colors">
+          </Button>
+          <Button as="a" href="#demo" variant="primary" size="sm">
             Request a Demo
-          </a>
+          </Button>
         </div>
       </nav>
     </header>
@@ -54,7 +58,7 @@ function NavBar() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800" aria-labelledby="hero-title">
+    <section className="relative overflow-hidden border-b border-white/5" aria-labelledby="hero-title">
       <div className="mx-auto max-w-6xl px-4 pt-20 pb-24 sm:px-6 lg:px-8">
         <div className="text-center">
           <h1 id="hero-title" className="mx-auto max-w-4xl text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl animate-fade-in-up">
@@ -64,12 +68,8 @@ function Hero() {
             Take control of your plans, automate billing, and grow with insights — all in one secure, modern platform.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 animate-fade-in-up" style={{ animationDelay: '220ms' }}>
-            <a href="#pricing" className="inline-flex items-center justify-center rounded-md border border-indigo-500 bg-indigo-500 px-6 py-3 text-base font-semibold text-white hover:bg-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 transition-colors">
-              Explore Plans
-            </a>
-            <a href="#demo" className="inline-flex items-center justify-center rounded-md border border-indigo-500 bg-transparent px-6 py-3 text-base font-semibold text-white hover:bg-indigo-500/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 transition-colors">
-              Request a Demo
-            </a>
+            <Button as="a" href="#pricing" variant="primary" size="lg">Explore Plans</Button>
+            <Button as="a" href="#demo" variant="secondary" size="lg">Request a Demo</Button>
           </div>
         </div>
 
@@ -127,14 +127,9 @@ function Hero() {
 
 function Section({ id, title, subtitle, children }) {
   return (
-    <section id={id} className="scroll-mt-24 border-b border-white/10">
+    <section id={id} className="scroll-mt-24 border-b border-white/5">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">{title}</h2>
-          {subtitle && (
-            <p className="mt-3 text-slate-300">{subtitle}</p>
-          )}
-        </div>
+        <SectionHeading title={title} subtitle={subtitle} />
         <div className="mt-10">
           {children}
         </div>
@@ -146,12 +141,13 @@ function Section({ id, title, subtitle, children }) {
 function FeatureCard({ icon: Icon, title, desc }) {
   const { ref, inView } = useInView()
   return (
-    <div ref={ref} className={clsx("rounded-2xl border border-white/10 bg-[#1F2937] p-6 transition-shadow hover-glow", inView ? 'animate-fade-in-up' : 'opacity-0 translate-y-4')}
-    >
+    <Card ref={ref} className={clsx(inView ? 'animate-fade-in-up' : 'opacity-0 translate-y-4')}>
       <Icon className="h-6 w-6 text-indigo-400" />
-      <h3 className="mt-4 text-lg font-semibold text-white">{title}</h3>
-      <p className="mt-2 text-slate-300 text-sm">{desc}</p>
-    </div>
+      <CardHeader className="mt-4">
+        <CardTitle>{title}</CardTitle>
+        <CardDescription className="mt-2">{desc}</CardDescription>
+      </CardHeader>
+    </Card>
   )
 }
 
@@ -183,7 +179,7 @@ function ForBusiness() {
   ]
 
   return (
-    <section id="for-business" className="border-b border-white/10">
+    <section id="for-business" className="border-b border-white/5">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div ref={ref} className={clsx("grid grid-cols-1 gap-10 md:grid-cols-2 items-center", inView ? 'animate-fade-in-up' : 'opacity-0 translate-y-4')}>
           <div>
@@ -253,9 +249,7 @@ function PricingCard({ name, price, audience, popular, features, cta }) {
         ))}
       </ul>
       <div className="mt-8">
-        <a href="#" className={clsx('inline-flex w-full items-center justify-center rounded-md px-5 py-2.5 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900',
-          popular ? 'bg-indigo-500 text-white border border-indigo-500 hover:bg-indigo-400' : 'border border-indigo-500 text-white bg-transparent hover:bg-indigo-500/10'
-        )}>{cta}</a>
+        <Button as="a" href="#" variant={popular ? 'primary' : 'secondary'} className="w-full">{cta}</Button>
       </div>
     </div>
   )
@@ -290,13 +284,15 @@ function Pricing() {
 
 function FinalCTA() {
   return (
-    <section className="relative overflow-hidden border-y border-white/10 bg-gradient-to-b from-indigo-600/30 via-indigo-600/20 to-slate-900">
-      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white">Ready to Revolutionize Your Subscription Management?</h2>
-        <p className="mt-3 text-slate-200">Join SubScribeFlow today and take control with powerful automation and insights.</p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a href="#signup" className="inline-flex items-center justify-center rounded-md border border-indigo-500 bg-indigo-500 px-6 py-3 text-base font-semibold text-white hover:bg-indigo-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 transition-colors">Sign Up Now</a>
-          <a href="#demo" className="inline-flex items-center justify-center rounded-md border border-indigo-500 bg-transparent px-6 py-3 text-base font-semibold text-white hover:bg-indigo-500/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 transition-colors">Schedule a Demo</a>
+    <section className="relative overflow-hidden border-b border-white/5">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-indigo-500/10 to-transparent p-10 text-center">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">Ready to Revolutionize Your Subscription Management?</h2>
+          <p className="mt-3 text-slate-200">Join SubScribeFlow today and take control with powerful automation and insights.</p>
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <Button as="a" href="#signup" variant="primary" size="lg">Sign Up Now</Button>
+            <Button as="a" href="#demo" variant="secondary" size="lg">Schedule a Demo</Button>
+          </div>
         </div>
       </div>
     </section>
@@ -356,7 +352,8 @@ function Footer() {
 
 function App() {
   return (
-    <div className="min-h-full">
+    <div className="min-h-full relative">
+      <BackgroundFX />
       <NavBar />
       <Hero />
       <Section id="features" title="Everything You Need To Manage Subscriptions" subtitle="A complete toolkit from plan configuration to analytics and automation." >
